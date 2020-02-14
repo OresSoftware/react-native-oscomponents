@@ -2,7 +2,7 @@ import * as React from 'react';
 import {TextInput} from 'react-native-paper';
 import OSIcon from './icon';
 import {Container, IconContainer, EditContainer} from '../config/styles';
-import TextInputMask from 'react-native-text-input-mask';
+import {TextInputMask } from 'react-native-masked-text';
 
 export default ({
   label,
@@ -21,6 +21,7 @@ export default ({
   xref,
   disabled,
   mask,
+  maskoptions,
 }) => {
   const renderIcon = icon => {
     if (icon) {
@@ -43,7 +44,7 @@ export default ({
         {renderIcon(iconLeft)}
         <TextInput
           ref={xref}
-          style={{flex: 1}}
+          style={{width: 150}}
           error={error}
           color="#000"
           mode="outlined"
@@ -68,7 +69,7 @@ export default ({
             },
           }}
           render={
-            mask ? props => <TextInputMask {...props} mask={mask} /> : undefined
+            mask ? props => <TextInputMask {...props} type={mask} options={maskoptions}/> : undefined
           }
         />
         {renderIcon(iconRight)}

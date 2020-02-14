@@ -1,17 +1,20 @@
 {
   "name": "react-native-oscomponents",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Componentes OS!'",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "react-native-text-input-mask": "^2.0.0",
+    "react-native-masked-text": "^1.13.0",
     "moment": "^2.24.0",
     "react-native-paper": "^3.4.0",
     "react-native-vector-icons": "^6.6.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+	  "react-native-animated-loader": "^0.0.8",
+	  "react-native-responsive-fontsize": "^0.4.3",
+	  "lottie-react-native": "^3.3.2"
   },
   "keywords": [
     "node",
