@@ -1,0 +1,8 @@
+{
+  "name": "oscomponents",
+  "version": "0.0.1",
+  "description": "Componentes OS!'",
+  "main": "index.js",
+  "author": "Pedro Henrique de Oliveira",
+  "license": "MIT"
+}
