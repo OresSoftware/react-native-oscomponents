@@ -44,7 +44,7 @@ export default ({
         {renderIcon(iconLeft)}
         <TextInput
           ref={xref}
-          style={{width: 150}}
+          style={{flex: 1}}
           error={error}
           color="#000"
           mode="outlined"
