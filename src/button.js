@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button, ButtonLabel} from './config/styles';
+import {Button, ButtonLabel} from '../config/styles';
 
 export default ({onPress, label, style}) => {
   return (

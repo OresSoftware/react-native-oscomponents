@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Checkbox} from 'react-native-paper';
 
-import {Label, ContainerFlexRow} from './config/styles';
+import {Label, ContainerFlexRow} from '../config/styles';
 
 export default class OSCheckbox extends Component {
   state = {

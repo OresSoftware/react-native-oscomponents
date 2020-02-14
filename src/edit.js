@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {TextInput} from 'react-native-paper';
 import OSIcon from './icon';
-import {Container, IconContainer, EditContainer} from './config/styles';
+import {Container, IconContainer, EditContainer} from '../config/styles';
 import TextInputMask from 'react-native-text-input-mask';
 
 export default ({

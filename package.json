@@ -1,8 +1,24 @@
 {
-  "name": "oscomponents",
-  "version": "0.0.1",
+  "name": "react-native-oscomponents",
+  "version": "0.1.0",
   "description": "Componentes OS!'",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react-native-text-input-mask": "^2.0.0",
+    "moment": "^2.24.0",
+    "react-native-paper": "^3.4.0",
+    "react-native-vector-icons": "^6.6.0",
+    "styled-components": "^4.4.1"
+  },
+  "keywords": [
+    "node",
+    "npm",
+    "oscomponents"
+  ],
   "author": "Pedro Henrique de Oliveira",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://github.com/OresSoftware/react-native-oscomponents"
 }

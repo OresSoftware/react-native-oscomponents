@@ -4,14 +4,14 @@ import AnimatedLoader from 'react-native-animated-loader';
 
 const dinoLoader = require('../assets/dino_loader.json');
 
-export default ({visible}) => {
+export default ({visible, source}) => {
   return (
     <AnimatedLoader
       visible={visible}
       overlayColor="rgba(255,255,255,0.75)"
       animationStyle={styles.lottie}
       speed={1}
-      source={dinoLoader}
+      source={source ? source : dinoLoader}
     />
   );
 };
