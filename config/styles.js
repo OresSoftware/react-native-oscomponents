@@ -25,7 +25,7 @@ export const Button = Styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   margin-top: 10px;
-  background: ${p => (p.background ? p.background : 'tomato')};   
+  background: ${p => (p.backgroundColor ? p.backgroundColor : 'tomato')};   
 `;
 
 export const ButtonLabel = Styled.Text`  

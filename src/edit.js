@@ -26,7 +26,7 @@ export default ({
   const renderIcon = icon => {
     if (icon) {
       return (
-        <IconContainer>
+        <IconContainer backgroundColor={icon.backgroundColor || null}>
           <OSIcon
             name={icon.name || null}
             color={icon.color || null}

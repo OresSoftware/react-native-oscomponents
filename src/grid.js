@@ -30,6 +30,7 @@ export default props => {
     onPressCell,
     height,
     backgroundRow,
+    image
   } = props;
 
   const getColor = (cor, obj) => {
@@ -58,7 +59,7 @@ export default props => {
 
   const renderImage = props => {
     if (showImage) {
-      return <Image source={Foto} resizeMode="contain" />;
+      return <Image source={image || Foto} resizeMode="contain" />;
     }
   };
 
