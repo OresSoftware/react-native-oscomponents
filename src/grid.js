@@ -14,7 +14,7 @@ import {
 } from '../config/styles';
 
 import Icon from './icon';
-import Foto from '../assets/sem-imagem.jpg';
+import SemFoto from '../assets/sem-imagem.jpg';
 
 export default props => {
   const {
@@ -30,7 +30,6 @@ export default props => {
     onPressCell,
     height,
     backgroundRow,
-    image
   } = props;
 
   const getColor = (cor, obj) => {
@@ -57,9 +56,15 @@ export default props => {
     }
   };
 
-  const renderImage = props => {
+  const renderImage = item => {
     if (showImage) {
-      return <Image source={image || Foto} resizeMode="contain" />;
+      let img = null;
+
+      if (item[showImage] !== ''){
+        img = {uri: `${item[showImage]}`};        
+      }
+
+      return <Image defaultSource={SemFoto} source={img} resizeMode="contain" />;
     }
   };
 
@@ -87,7 +92,7 @@ export default props => {
           onPress={() => onPressCell(item)}
           index={index}
           background={getColor(backgroundRow, item)}>
-          {iconLeft ? renderIcon(iconLeft, item) : renderImage()}
+          {iconLeft ? renderIcon(iconLeft, item) : renderImage(item)}
           <Details>{renderCell(item, index)}</Details>
           {renderIcon(iconRight, item)}
         </RowPress>
@@ -95,7 +100,7 @@ export default props => {
     } else {
       return (
         <Row index={index} background={getColor(backgroundRow, item)}>
-          {iconLeft ? renderIcon(iconLeft, item) : renderImage()}
+          {iconLeft ? renderIcon(iconLeft, item) : renderImage(item)}
           <Details>{renderCell(item, index)}</Details>
           {renderIcon(iconRight, item)}
         </Row>
