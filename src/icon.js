@@ -10,9 +10,10 @@ const OSIcon = ({
   onPress,
   className,
   backgroundColor,
+  nopadding
 }) => {
   if (!name) {
-    return;
+    <Icon/>
   }
 
   const renderText = () =>
@@ -24,14 +25,14 @@ const OSIcon = ({
         onPress={e => onPress(e)}
         className={className}
         backgroundColor={backgroundColor}>
-        <Icon name={name} size={size || 22} color={color || '#333'} />
+        <Icon name={name} size={size || 22} color={color || '#333'} nopadding={nopadding} />
         {renderText()}
       </IconButton>
     );
   } else {
     return (
       <>
-        <Icon name={name} size={size || 22} color={color || '#333'} />
+        <Icon name={name} size={size || 22} color={color || '#333'} nopadding={nopadding}/>
         {renderText()}
       </>
     );

@@ -1,135 +1,119 @@
 import React from 'react';
-import {Appbar} from 'react-native-paper';
-
 import Icon from './icon';
-import { Image } from 'react-native';
 
 import Styled from 'styled-components';
 
-export default props => {
-  const {image, title, subTitle, iconLeft, iconRight, navigation, search} = props;
+export default OSHeader = props => {
+  const {iconLeft, iconRight, image, title, subtitle, search} = props;
 
-  function renderIcon(iIcon) {
-    if (iIcon) {
-      let onPress = () => {};
+  const renderIcon = iIcon => {
+    if(iIcon){
+      let iconPress = () => {};
 
-      if(iIcon.navigate) {
-        onPress = () => navigation.navigate(iIcon.navigate);
+      if (iIcon.onPress) {
+        iconPress = iIcon.onPress;
+      };
+  
+      if (iIcon.navigate) {
+        iconPress = () => props.navigation.navigate(iIcon.navigate);
       }
 
-      if(iIcon.onPress) {
-        onPress = iIcon.onPress;
-      }
-
-      return <Appbar.Action icon={iIcon.name} onPress={onPress} color={'#FFF'} size={27} />;
+      return <Icon {...iIcon} size={27} onPress={iconPress} color='#FFF'/>
     }
-    
-    return <Appbar.Action/>
+
+    return <Icon/>
   }
 
-  function renderImage() {
-    if(image) {
-      return (
-        <ImageContainer>
-          <Image source={{uri:image}} resizeMode="contain" style={{flex: 1}}/>
-        </ImageContainer>
-      )      
-    }    
+  const renderImage = () => {
+    if(image){
+      return <Image source={{uri:image}} resizeMode="contain"/>
+    }
+
   }
 
-  function renderSearch() {
-    if(search){
+  const renderTitle = () => {
+    if (title) {
+      return <Title>{title}</Title>
+    }
+  }
+
+  const renderSearch = () => {
+    if (search) {
       return (
-        <SearchContainer>
-          <SearchTextInput placeholder={search.placeholder}/>
-          <Icon name={'search'} size={17}/>
+        <SearchContainer>        
+          <EditContainer>
+            <TextInput placeholder={search.placeholder}/>
+            <Icon name="search" size={15} color="#FF8000" nopadding/>
+          </EditContainer>
         </SearchContainer>
       )
-    }    
-  }
-
-  function renderTitle() {
-    if(title){
-      return (
-        <TitleContainer>
-          <TitleTit>{title}</TitleTit>
-          { subTitle ? <TitleSub>{subTitle}</TitleSub> : null}
-        </TitleContainer>
-      )
     }
   }
 
-  return ( 
-    <HeaderContainer height={search ? 120 : 80}>        
-      <HeaderPrincipal>
+  return (
+    <Header>      
+      <Header1>
         {renderIcon(iconLeft)}
+        <TitleContainer>
         {renderImage()}
         {renderTitle()}
+        </TitleContainer>
         {renderIcon(iconRight)}
-      </HeaderPrincipal>  
-      <HeaderPesquisa>
+      </Header1>
         {renderSearch()}
-      </HeaderPesquisa>
-    </HeaderContainer>
-  )
+    </Header>
+  );
 }
 
-const HeaderContainer = Styled.View`
+const Header = Styled.View`
   padding-top: 25px;
-  height: ${p => p.height}px;
-  background: #11548F;
-  box-shadow: 0 5px 3px rgba(0, 0, 0, 0.15);  
-  elevation: 3;
-  margin-bottom: 3px;
+  background: #FF8000;
 `;
 
-const HeaderPrincipal = Styled.View`
-  flex: 1;
-  flex-direction: row;
-`;
-
-const HeaderPesquisa = Styled.View`
-  height: 50;
-`;
-
-const ImageContainer = Styled.View`
-  flex: 1; 
+const Header1 = Styled.View`
   height: 50px;
-  padding: 11px 22px;
+  flex-direction: row;
 `;
 
 const SearchContainer = Styled.View`
-  height: 50px;
-  flex: 1px;
-  background: #FFF;
-  border-radius: 3px;
+  height: 35px;
   flex-direction: row;
-  margin: 6px 10px;
+  padding: 0px 3px;
   justify-content: center;
   align-items: center;
-`;
-
-const SearchTextInput = Styled.TextInput`
-  flex: 1;
-  height: 35px;
-  padding-left: 10px;
-  font-size: 18px;
 `;
 
 const TitleContainer = Styled.View`
   flex: 1;
-  height: 50px;
   align-items: center;
   justify-content: center;
 `;
 
-const TitleTit = Styled.Text`
-  font-size: 19;
-  color: #FFF;
+const Title = Styled.Text`
+  color: #000;
+  font-size: 20px;
   font-weight: bold;
+  color: #FFF;  
 `;
 
-const TitleSub = Styled.Text`
-  font-size: 14;
-  color: #FFF;
+const Image = Styled.Image`
+  min-height: 45px;
+  width: 100%;
+  margin-bottom: 1px;
+`;
+
+const EditContainer = Styled.View`
+  flex: 0.9;
+  background: #FFF;
+  border-radius: 15px;
+  flex-direction: row;
+  margin-bottom: 6px;
+  align-items: center;
+  height: 30px;
+  padding: 0 10px;
+`;
+
+const TextInput = Styled.TextInput`
+  flex: 1;
+  padding: 2px 5px;
 `;

@@ -14,8 +14,6 @@ export default ({
   Min,
   ParamsGetFixo,
   api,
-  autoFocus,
-  loader
 }) => {
   const [tipo, setTipo] = useState(eNum[0]);
   const [value, setValue] = useState('');
@@ -76,10 +74,10 @@ export default ({
         }
         iconRight={{name: 'search', onPress: Pesquisa}}
         onPress={Pesquisa}
-        autoFocus={autoFocus==false ? false : true}
+        autoFocus={true}
         keyboard={tipo.keyboard ? tipo.keyboard : 'default'}
       />
-      <OSLoader visible={loading} source={loader ? loader : undefined} />      
+      <OSLoader visible={loading} />
     </View>
   );
 };

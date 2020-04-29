@@ -30,6 +30,8 @@ export default props => {
     onPressCell,
     height,
     backgroundRow,
+    imageCover,
+    flexQtd
   } = props;
 
   const getColor = (cor, obj) => {
@@ -64,7 +66,7 @@ export default props => {
         img = {uri: `${item[showImage]}`};        
       }
 
-      return <Image defaultSource={SemFoto} source={img} resizeMode="contain" />;
+      return <Image defaultSource={SemFoto} source={img} resizeMode="contain" flexQtd={flexQtd} imageCover />;
     }
   };
 
@@ -86,6 +88,17 @@ export default props => {
   };
 
   const renderRow = ({item, index}) => {
+    if (imageCover) {
+      return (
+        <RowPress
+          onPress={() => onPressCell(item)}
+          index={index}
+          background={getColor(backgroundRow, item)}>
+          {renderImage(item)}
+        </RowPress>
+      )
+    }
+
     if (onPressCell) {
       return (
         <RowPress
@@ -176,7 +189,7 @@ export default props => {
       }
     }
   };
-  //key={`${item[dataKey]}_${index}`}
+  
   const renderCell = (item, index) => {
     if (item && cols) {
       return cols.map((col, i) => {
@@ -189,7 +202,7 @@ export default props => {
     return index.toString();
   }
 
-  if (data && data.length) {
+  if (data && data.length>0) {
     return (
       <Grid
         height={height}
@@ -204,4 +217,3 @@ export default props => {
   }
 };
 
-//keyExtractor={item => item.id}
