@@ -1,20 +1,20 @@
-import React from 'react';
+import React, {useRef} from 'react';
+import Styled, {css} from 'styled-components';
 import moment from 'moment';
 
 import {
   Grid,
-  Row,
-  RowPress,
   Cell,
   Details,
   Caption,
   Value,
-  Image,
   IconView,
 } from '../config/styles';
 
 import Icon from './icon';
-import SemFoto from '../assets/sem-imagem.jpg';
+import Image from './image';
+
+import {windowWidth ,ratio} from '../config/styles';
 
 export default props => {
   const {
@@ -31,7 +31,9 @@ export default props => {
     height,
     backgroundRow,
     imageCover,
-    flexQtd
+    setData,
+    flexRows,
+
   } = props;
 
   const getColor = (cor, obj) => {
@@ -59,14 +61,20 @@ export default props => {
   };
 
   const renderImage = item => {
-    if (showImage) {
+    if (item.loaded && showImage) {
       let img = null;
 
       if (item[showImage] !== ''){
-        img = {uri: `${item[showImage]}`};        
+        //if (showThumbnail){
+        //  img = {uri: `${item.thumbnail}`};
+        //} else {
+          img = {uri: `${item[showImage]}`};
+        //}
       }
 
-      return <Image defaultSource={SemFoto} source={img} resizeMode="contain" flexQtd={flexQtd} imageCover />;
+      return (
+        <Image {...props} source={img}/>
+      );
     }
   };
 
@@ -91,8 +99,9 @@ export default props => {
     if (imageCover) {
       return (
         <RowPress
+          {...props}
+          index={index}          
           onPress={() => onPressCell(item)}
-          index={index}
           background={getColor(backgroundRow, item)}>
           {renderImage(item)}
         </RowPress>
@@ -184,8 +193,6 @@ export default props => {
             </Value>
           </>
         );
-      } else {
-        return;
       }
     }
   };
@@ -202,6 +209,15 @@ export default props => {
     return index.toString();
   }
 
+  const viewabilityConfig = useRef({itemVisiblePercentThreshold: 50})
+
+  const onView = useRef(({viewableItems }) => {
+    const newData = data.map(dataItem => 
+      viewableItems.find(({item}) => dataItem.id==item.id) ? {...dataItem, loaded: true} : dataItem
+    )
+    setData(newData);
+  })
+
   if (data && data.length>0) {
     return (
       <Grid
@@ -210,6 +226,8 @@ export default props => {
         renderItem={renderRow}
         keyExtractor={(item, index) => Extractor(item, index)}
         contentContainerStyle={{paddingBottom: 10}}
+        onViewableItemsChanged={onView.current}
+        viewabilityConfig={viewabilityConfig.current}
       />
     );
   } else {
@@ -217,3 +235,38 @@ export default props => {
   }
 };
 
+
+const getWidth = props => {
+  return props.imageCover ? windowWidth : windowWidth * 0.25;
+}
+
+const getHeight = props => {
+  return props.flexRows ? (ratio / props.flexRows) : (ratio / 5)
+}
+
+const CssRow = css`
+  background: #fff;
+  flex-direction: row; 
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);  
+  elevation: 1;
+  margin-bottom: 10px;
+  border-radius: 10px; 
+  overflow: hidden;
+`;
+
+const Row = Styled.View`
+  width:  ${p => getWidth({...p, imageCover: true})};
+  height: ${p => getHeight(p)};
+  ${CssRow};
+`;
+
+const RowPress = Styled.TouchableOpacity`  
+  width:  ${p => getWidth({...p, imageCover: true})};
+  height: ${p => getHeight(p)};
+  ${CssRow};
+`;
+
+
+const ImageContainer = Styled.View`
+ 
+`;

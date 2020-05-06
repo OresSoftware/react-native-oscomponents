@@ -23,6 +23,7 @@ export default ({
   mask,
   maskoptions,
 }) => {
+
   const renderIcon = icon => {
     if (icon) {
       return (
@@ -38,6 +39,7 @@ export default ({
       );
     }
   };
+  
   return (
     <Container>
       <EditContainer>

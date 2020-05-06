@@ -8,9 +8,9 @@ import FAIcon from 'react-native-vector-icons/FontAwesome5';
  * @see https://fontawesome.com/icons?from=io
  */
 
-
-const win   = Dimensions.get('window');
-const ratio = win.width/300;
+export const windowHeight   = Dimensions.get('window').height;
+export const windowWidth    = Dimensions.get('window').width;
+export const ratio          = windowWidth * 1.68;
 
 export const Container = Styled.View`
   flex-direction: column;
@@ -95,30 +95,6 @@ export const Grid = Styled.FlatList`
   height: ${p => (p.height ? p.height : '90%')};
 `;
 
-export const Row = Styled.View`
-  background: ${p => (p.background ? p.background : '#fff')}; #fff;
-  flex-direction: row;
-  border-bottom-width: 0.5;
-  border-right-width: 0.5;
-  border-color: #AAA;   
-  padding: 5px;
-  margin: 2px;    
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);  
-  elevation: 1;
-`;
-
-export const RowPress = Styled.TouchableOpacity`  
-  background: #fff;
-  flex-direction: row; 
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);  
-  elevation: 1;
-  width: ${win.width-10};
-  height: ${100 * ratio};
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding:5px;
-`;
-
 export const Cell = Styled.View`
   flex-direction: row;
   align-items: center;
@@ -127,11 +103,6 @@ export const Cell = Styled.View`
 export const Details = Styled.View`
   padding: 5px; 
   flex: 1; 
-`;
-
-export const Image = Styled.Image`  
-  border-radius: 10px;
-  flex: 1;
 `;
 
 export const Caption = Styled.Text`
