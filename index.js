@@ -7,5 +7,7 @@ export {default as OSSearch} from './src/search';
 export {default as OSGrid} from './src/grid';
 export {default as OSHeader} from './src/header';
 export {default as OSCarousel} from './src/carousel';
+export {default as OSImage} from './src/image';
+
 
 

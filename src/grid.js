@@ -61,7 +61,7 @@ export default props => {
   };
 
   const renderImage = item => {
-    if (item.loaded && showImage) {
+    if (showImage) {
       let img = null;
 
       if (item[showImage] !== ''){
@@ -226,8 +226,8 @@ export default props => {
         renderItem={renderRow}
         keyExtractor={(item, index) => Extractor(item, index)}
         contentContainerStyle={{paddingBottom: 10}}
-        onViewableItemsChanged={onView.current}
-        viewabilityConfig={viewabilityConfig.current}
+        //onViewableItemsChanged={onView.current}
+        //viewabilityConfig={viewabilityConfig.current}
       />
     );
   } else {
