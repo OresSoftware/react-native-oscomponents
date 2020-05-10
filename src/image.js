@@ -6,10 +6,11 @@ import SemImagem from '../assets/sem-imagem.jpg';
 import {windowWidth, ratio} from '../config/styles';
 
 export default function OSImage(props){
+  
   const {source} = props;
   const [opacity, setOpacity] = useState(new Animated.Value(0));
   const defaultSource = !source ? SemImagem : null;
-
+  const img = (source instanceof Object) ? source : {uri: source};
 
   const onLoad = (e) => {
     Animated.timing(opacity, {
@@ -22,25 +23,20 @@ export default function OSImage(props){
   return (
     <Container {...props}>
         <Image {...props} 
+          source={img}
           defaultSource={defaultSource} 
           resizeMode={'contain'} 
           blurRadius={0}/>
-        {/*<ImageAnimated {...props} 
-          defaultSource={defaultSource} 
-          resizeMode={'contain'} 
-          onLoad={onLoad} 
-  style={{opacity: opacity}}/>*/}
     </Container>
     )
 }
-
 
 const getWidth = props => {
   return props.imageCover ? windowWidth : windowWidth * 0.25;
 }
 
 const getHeight = props => {
-  return props.flexRows ? (ratio / props.flexRows) : (ratio / 5)
+  return props.flexRows ? (ratio / props.flexRows) : (ratio / 2)
 }
 
 const Container = Styled.View`
