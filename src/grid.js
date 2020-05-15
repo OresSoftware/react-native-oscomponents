@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import Styled, {css} from 'styled-components';
+import React from 'react';
+import Styled from 'styled-components';
 import moment from 'moment';
 
 import {
@@ -22,18 +22,17 @@ export default props => {
     cols,
     iconLeft,
     iconRight,
-    showImage,
+    image,
     color,
     colorCaption,
     colorValue,
     onPress,
-    onPressCell,
     height,
     backgroundRow,
-    imageCover,
-    setData,
-    flexRows,
 
+    description,
+    price,
+    quantity
   } = props;
 
   const getColor = (cor, obj) => {
@@ -57,76 +56,6 @@ export default props => {
       return icon.name(obj);
     } else {
       return icon.name;
-    }
-  };
-
-  const renderImage = item => {
-    if (showImage) {
-      let img = null;
-
-      if (item[showImage] !== ''){
-        //if (showThumbnail){
-        //  img = {uri: `${item.thumbnail}`};
-        //} else {
-          img = {uri: `${item[showImage]}`};
-        //}
-      }
-
-      return (
-        <Image {...props} source={img}/>
-      );
-    }
-  };
-
-  const renderIcon = (icon, item) => {
-    const iconName = getIconName(icon, item);
-
-    if (iconName) {
-      return (
-        <IconView>
-          <Icon
-            name={iconName}
-            size={icon.size || 22}
-            color={getColor(color, item)}
-            onPress={onPress ? () => onPress(item) : undefined}
-          />
-        </IconView>
-      );
-    }
-  };
-
-  const renderRow = ({item, index}) => {
-    if (imageCover) {
-      return (
-        <RowPress
-          {...props}
-          index={index}          
-          onPress={() => onPressCell(item)}
-          background={getColor(backgroundRow, item)}>
-          {renderImage(item)}
-        </RowPress>
-      )
-    }
-
-    if (onPressCell) {
-      return (
-        <RowPress
-          onPress={() => onPressCell(item)}
-          index={index}
-          background={getColor(backgroundRow, item)}>
-          {iconLeft ? renderIcon(iconLeft, item) : renderImage(item)}
-          <Details>{renderCell(item, index)}</Details>
-          {renderIcon(iconRight, item)}
-        </RowPress>
-      );
-    } else {
-      return (
-        <Row index={index} background={getColor(backgroundRow, item)}>
-          {iconLeft ? renderIcon(iconLeft, item) : renderImage(item)}
-          <Details>{renderCell(item, index)}</Details>
-          {renderIcon(iconRight, item)}
-        </Row>
-      );
     }
   };
 
@@ -169,7 +98,108 @@ export default props => {
     } else {
       return {title: '', value: ''};
     }
+  }  
+
+  const renderImage = item => {
+    if (image && image.field) {
+      const img = item[image.field] !== '' ? item[image.field]: '';
+
+      return (
+        <ImageContainer {...props}>
+          <Image {...props} source={img}/>
+        </ImageContainer>
+      );
+    }
+  };
+
+  const renderIcon = (icon, item) => {
+    const iconName = getIconName(icon, item);
+
+    if (iconName) {
+      return (
+        <IconView>
+          <Icon
+            name={iconName}
+            size={icon.size || 22}
+            color={getColor(color, item)}
+            onPress={onPress ? () => onPress(item) : undefined}
+          />
+        </IconView>
+      );
+    }
+  };
+
+  const renderDescription = (item)  => {
+    if (description) {
+      return (
+        <DescriptionContainer>
+          <DescriptionText>{item[description.field]}</DescriptionText>
+        </DescriptionContainer>
+      );
+    }
   }
+
+  const renderQuantity = (item) => {
+    if(quantity){
+      return (
+        <QuantityContainer>
+          <Icon name={item.quantidade == 1 ? 'trash-alt' : 'minus'} size={15} onPress={quantity.actionRem ? () => quantity.actionRem(item) : null}/>
+          <QuantityText>{item[quantity.field]}</QuantityText>
+          <Icon name={'plus'} size={15} onPress={quantity.actionAdd ? () => quantity.actionAdd(item) : null}/>
+        </QuantityContainer>
+      )
+    }
+  }
+
+  
+  const renderPrice = (item) => {
+    if (price) {
+      return (
+        <PriceContainer>
+           <PriceText>{item[price.field]}</PriceText>
+        </PriceContainer>
+      ) 
+    }
+  }  
+
+  const renderRow = ({item, index}) => {  
+    if (image && image.cover) {
+      return (
+        <Row
+          {...props}
+          index={index}          
+          onPress={onPress ? () => onPress(item) : null}
+          background={getColor(backgroundRow, item)}>
+          {renderQuantity(item)}
+          {renderPrice(item)}
+          {renderImage(item)}
+        </Row>
+      )
+    }
+
+    return (        
+      <Row 
+        {...props}
+        index={index}
+        onPress={onPress ? () => onPress(item) : null}
+        background={getColor(backgroundRow, item)}>
+
+        {iconLeft ? renderIcon(iconLeft, item) : renderImage(item)}
+
+        <Details>
+          {renderCells(item, index)}
+          {renderDescription(item)}
+          <Line>
+          {renderQuantity(item)}
+          {renderPrice(item)}
+          </Line>
+        </Details>
+       
+        {renderIcon(iconRight, item)}
+      </Row>
+    );
+  };
+
 
   const renderLine = (col, item) => {
     if (col.value) {
@@ -197,7 +227,7 @@ export default props => {
     }
   };
   
-  const renderCell = (item, index) => {
+  const renderCells = (item, index) => {
     if (item && cols) {
       return cols.map((col, i) => {
         return <Cell key={i}>{renderLine(col, item)}</Cell>;
@@ -209,15 +239,6 @@ export default props => {
     return index.toString();
   }
 
-  const viewabilityConfig = useRef({itemVisiblePercentThreshold: 50})
-
-  const onView = useRef(({viewableItems }) => {
-    const newData = data.map(dataItem => 
-      viewableItems.find(({item}) => dataItem.id==item.id) ? {...dataItem, loaded: true} : dataItem
-    )
-    setData(newData);
-  })
-
   if (data && data.length>0) {
     return (
       <Grid
@@ -225,9 +246,6 @@ export default props => {
         data={data}
         renderItem={renderRow}
         keyExtractor={(item, index) => Extractor(item, index)}
-        contentContainerStyle={{paddingBottom: 10}}
-        //onViewableItemsChanged={onView.current}
-        //viewabilityConfig={viewabilityConfig.current}
       />
     );
   } else {
@@ -236,37 +254,70 @@ export default props => {
 };
 
 
-const getWidth = props => {
-  return props.imageCover ? windowWidth : windowWidth * 0.25;
+const getMarginH = p => (p.margins && p.margins.h ? p.margins.h : 5);
+const getMarginV = p => (p.margins && p.margins.v ? p.margins.v : 5);
+const getHeight = p => p.flexRows ? (ratio / p.flexRows) : (ratio / 5);
+const getWidth = p => {
+  let width = p.image && p.image.cover ? windowWidth : windowWidth * 0.30;
+  width = width - getMarginH(p)*2;
+
+  return width;
 }
 
-const getHeight = props => {
-  return props.flexRows ? (ratio / props.flexRows) : (ratio / 5)
-}
-
-const CssRow = css`
-  background: #fff;
+const Row = Styled.TouchableOpacity`
+  background: #FFF;
   flex-direction: row; 
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);  
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.1);  
   elevation: 1;
-  margin-bottom: 10px;
-  border-radius: 10px; 
+  border-radius: 0px; 
+  overflow: hidden;
+
+  width: ${p => getWidth({...p, image: {cover: true}})};
+  height: ${p => getHeight(p)}; 
+  margin-top: ${p => getMarginV(p)};
+  margin-left: ${p =>getMarginH(p)};
+`;
+
+const Line = Styled.View`
+  flex-direction: row;
+`;
+
+const ImageContainer = Styled.View`
+  width:  ${p => getWidth(p)};
+  height: ${p => getHeight(p)};
+  padding: ${p => p.image && p.image.cover ? 0 : '5px 5px 8px 5px'};
+`;
+
+const PriceContainer = Styled.View`
+  padding: 10px;
+  flex: 1;
+  flex-direction: row-reverse;
+`;
+
+const PriceText = Styled.Text`
+  font-size: 22px;
+`;
+
+const DescriptionContainer = Styled.View`
+  flex: 1;
   overflow: hidden;
 `;
 
-const Row = Styled.View`
-  width:  ${p => getWidth({...p, imageCover: true})};
-  height: ${p => getHeight(p)};
-  ${CssRow};
+const DescriptionText = Styled.Text`
+  font-size: 13px;
 `;
 
-const RowPress = Styled.TouchableOpacity`  
-  width:  ${p => getWidth({...p, imageCover: true})};
-  height: ${p => getHeight(p)};
-  ${CssRow};
+const QuantityContainer = Styled.View`
+  flex-direction: row;
+  align-items: center;
 `;
 
+const QuantityText = Styled.Text`
+  
+  width: 40px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 
-const ImageContainer = Styled.View`
- 
 `;
+

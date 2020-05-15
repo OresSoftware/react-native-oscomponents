@@ -1,56 +1,38 @@
 import React, { useState } from 'react';
-import {Animated} from 'react-native';
-import Styled, {css} from 'styled-components';
+import Styled from 'styled-components';
 import SemImagem from '../assets/sem-imagem.jpg';
-
-import {windowWidth, ratio} from '../config/styles';
 
 export default function OSImage(props){
   
   const {source} = props;
-  const [opacity, setOpacity] = useState(new Animated.Value(0));
+  const [loaded, setLoaded] = useState(false);
+
   const defaultSource = !source ? SemImagem : null;
-  const img = (source instanceof Object) ? source : {uri: source};
 
-  const onLoad = (e) => {
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 500,
-    }).start();
+  let img = '';
+  if(source){
+    img = (source instanceof Object) ? source : {uri: source};
   }
-
-
+  
   return (
-    <Container {...props}>
-        <Image {...props} 
+    <Container {...props} background={loaded ? '#FFF' : '#DDD'}>
+        <Image {...props}           
           source={img}
           defaultSource={defaultSource} 
           resizeMode={'contain'} 
-          blurRadius={0}/>
+          blurRadius={0}
+          onLoad={() => setLoaded(true)}
+          />
     </Container>
     )
 }
 
-const getWidth = props => {
-  return props.imageCover ? windowWidth : windowWidth * 0.25;
-}
-
-const getHeight = props => {
-  return props.flexRows ? (ratio / props.flexRows) : (ratio / 2)
-}
-
 const Container = Styled.View`
-  background: #F2F2F2;
-  border-radius: 5px;
-`;
-
-const ImageAnimated = Styled(Animated.Image)`
-  position: absolute;
-  width: ${p => getWidth(p)};
-  height: ${p => getHeight(p)};
+  background: ${p => p.background};
+  border-radius: 1px;
 `;
 
 const Image = Styled.Image` 
-  width: ${p => getWidth(p)};
-  height: ${p => getHeight(p)};
+  width: 100%;
+  height: 100%;
 `;

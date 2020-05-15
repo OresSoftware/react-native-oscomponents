@@ -10,7 +10,7 @@ import FAIcon from 'react-native-vector-icons/FontAwesome5';
 
 export const windowHeight   = Dimensions.get('window').height;
 export const windowWidth    = Dimensions.get('window').width;
-export const ratio          = windowWidth * 1.68;
+export const ratio          = windowWidth * 1.63;
 
 export const Container = Styled.View`
   flex-direction: column;
