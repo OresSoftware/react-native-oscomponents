@@ -1,6 +1,5 @@
 import React from 'react';
 import Styled from 'styled-components';
-import moment from 'moment';
 
 import {
   Grid,
@@ -15,6 +14,8 @@ import Icon from './icon';
 import Image from './image';
 
 import {windowWidth ,ratio} from '../config/styles';
+
+import {formatCurrency, formatDate} from '../commons/functions';
 
 export default props => {
   const {
@@ -32,7 +33,8 @@ export default props => {
 
     description,
     price,
-    quantity
+    quantity,
+    headerComponent
   } = props;
 
   const getColor = (cor, obj) => {
@@ -62,14 +64,9 @@ export default props => {
   function getValue(field, type, item) {
     if (item[field]) {
       if (type === 'date') {
-        return moment(new Date(item[field]))
-          .utc(false)
-          .format('DD/MM/YYYY');
+        return formatDate(new Date(item[field]))      
       } else if (type === 'currency') {
-        return (
-          'R$ ' +
-          item[field].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-        );
+        return formatCurrency(item[field])
       } else if (typeof type === 'function') {
         return type(item);
       } else {
@@ -99,6 +96,8 @@ export default props => {
       return {title: '', value: ''};
     }
   }  
+
+
 
   const renderImage = item => {
     if (image && image.field) {
@@ -156,7 +155,7 @@ export default props => {
     if (price) {
       return (
         <PriceContainer>
-           <PriceText>{item[price.field]}</PriceText>
+           <PriceText>{formatCurrency(item[price.field])}</PriceText>
         </PriceContainer>
       ) 
     }
@@ -245,6 +244,7 @@ export default props => {
         height={height}
         data={data}
         renderItem={renderRow}
+        ListHeaderComponent={headerComponent}
         keyExtractor={(item, index) => Extractor(item, index)}
       />
     );
@@ -254,8 +254,8 @@ export default props => {
 };
 
 
-const getMarginH = p => (p.margins && p.margins.h ? p.margins.h : 5);
-const getMarginV = p => (p.margins && p.margins.v ? p.margins.v : 5);
+const getMarginH = p => (p.margins && p.margins.h ? p.margins.h : 10);
+const getMarginV = p => (p.margins && p.margins.v ? p.margins.v : 10);
 const getHeight = p => p.flexRows ? (ratio / p.flexRows) : (ratio / 5);
 const getWidth = p => {
   let width = p.image && p.image.cover ? windowWidth : windowWidth * 0.30;
@@ -296,6 +296,7 @@ const PriceContainer = Styled.View`
 
 const PriceText = Styled.Text`
   font-size: 22px;
+  color: green;
 `;
 
 const DescriptionContainer = Styled.View`
@@ -313,7 +314,6 @@ const QuantityContainer = Styled.View`
 `;
 
 const QuantityText = Styled.Text`
-  
   width: 40px;
   align-items: center;
   text-align: center;
