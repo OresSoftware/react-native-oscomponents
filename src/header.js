@@ -4,7 +4,7 @@ import Icon from './icon';
 import Styled from 'styled-components';
 
 export default OSHeader = props => {
-  const {iconLeft, iconRight, image, title, subtitle, search} = props;
+  const {iconLeft, iconRight, image, title, subtitle, search, custom} = props;
 
   const renderIcon = iIcon => {
     if(iIcon){
@@ -18,7 +18,7 @@ export default OSHeader = props => {
         iconPress = () => props.navigation.navigate(iIcon.navigate);
       }
 
-      return <Icon {...iIcon} size={27} onPress={iconPress} color='#FFF'/>
+      return <Icon {...iIcon} size={27} onPress={iconPress} color={custom.cores.font}/>
     }
 
     return <Icon/>
@@ -28,12 +28,11 @@ export default OSHeader = props => {
     if(image){
       return <Image source={{uri:image}} resizeMode="contain"/>
     }
-
   }
 
   const renderTitle = () => {
     if (title) {
-      return <Title>{title}</Title>
+      return <Title color={custom.cores.font}>{title}</Title>
     }
   }
 
@@ -43,7 +42,7 @@ export default OSHeader = props => {
         <SearchContainer>        
           <EditContainer>
             <TextInput placeholder={search.placeholder}/>
-            <Icon name="search" size={15} color="#FF8000" nopadding/>
+            <Icon name="search" size={15} color={custom.cores.background} nopadding/>
           </EditContainer>
         </SearchContainer>
       )
@@ -51,7 +50,7 @@ export default OSHeader = props => {
   }
 
   return (
-    <Header>      
+    <Header background={custom.cores.background}>      
       <Header1>
         {renderIcon(iconLeft)}
         <TitleContainer>
@@ -67,7 +66,7 @@ export default OSHeader = props => {
 
 const Header = Styled.View`
   padding-top: 25px;
-  background: #FF8000;
+  background: ${p => p.background || '#000'};
 `;
 
 const Header1 = Styled.View`
@@ -90,10 +89,9 @@ const TitleContainer = Styled.View`
 `;
 
 const Title = Styled.Text`
-  color: #000;
   font-size: 20px;
   font-weight: bold;
-  color: #FFF;  
+  color: ${p=>p.color};  
 `;
 
 const Image = Styled.Image`
