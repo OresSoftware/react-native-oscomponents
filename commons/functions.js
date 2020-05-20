@@ -1,6 +1,5 @@
 import moment from 'moment';
 
-
 export function formatCurrency(iValue) {
   return (
     'R$ ' +

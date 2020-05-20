@@ -149,7 +149,6 @@ export default props => {
       )
     }
   }
-
   
   const renderPrice = (item) => {
     if (price) {
@@ -160,7 +159,7 @@ export default props => {
       ) 
     }
   }  
-
+  
   const renderRow = ({item, index}) => {  
     if (image && image.cover) {
       return (
@@ -234,25 +233,38 @@ export default props => {
     }
   };
 
+  const renderHeader = () => {
+    if (headerComponent) {
+      return (
+        <ContainerHeader>
+        {headerComponent()}
+        </ContainerHeader>
+      )
+    }
+
+    return <></>
+  }
+
   function Extractor(item, index) {
     return index.toString();
   }
 
   if (data && data.length>0) {
     return (
+      <ContainerBody>
       <Grid
         height={height}
         data={data}
         renderItem={renderRow}
-        ListHeaderComponent={headerComponent}
+        ListHeaderComponent={renderHeader}
         keyExtractor={(item, index) => Extractor(item, index)}
       />
+      </ContainerBody>
     );
   } else {
     return <></>;
   }
 };
-
 
 const getMarginH = p => (p.margins && p.margins.h ? p.margins.h : 10);
 const getMarginV = p => (p.margins && p.margins.v ? p.margins.v : 10);
@@ -263,6 +275,14 @@ const getWidth = p => {
 
   return width;
 }
+
+const ContainerHeader = Styled.View`
+  padding-top: 10px;
+  flex-grow: 1;
+`;
+const ContainerBody = Styled.View`
+  flex-grow: 1;
+`;
 
 const Row = Styled.TouchableOpacity`
   background: #FFF;
@@ -289,7 +309,7 @@ const ImageContainer = Styled.View`
 `;
 
 const PriceContainer = Styled.View`
-  padding: 10px;
+  padding-horizontal: 5px;
   flex: 1;
   flex-direction: row-reverse;
 `;
@@ -297,6 +317,7 @@ const PriceContainer = Styled.View`
 const PriceText = Styled.Text`
   font-size: 22px;
   color: green;
+  align-self: flex-end;
 `;
 
 const DescriptionContainer = Styled.View`
@@ -311,6 +332,8 @@ const DescriptionText = Styled.Text`
 const QuantityContainer = Styled.View`
   flex-direction: row;
   align-items: center;
+  align-self: flex-end;
+  background: red;
 `;
 
 const QuantityText = Styled.Text`
@@ -318,6 +341,4 @@ const QuantityText = Styled.Text`
   align-items: center;
   text-align: center;
   justify-content: center;
-
 `;
-
