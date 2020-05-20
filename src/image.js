@@ -17,7 +17,7 @@ export default function OSImage(props){
   return (
     <Container {...props} background={loaded ? '#FFF' : '#DDD'}>
         <Image {...props}           
-          source={img}
+          source={source ? img : null}
           defaultSource={defaultSource} 
           resizeMode={'contain'} 
           blurRadius={0}

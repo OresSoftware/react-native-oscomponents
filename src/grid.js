@@ -159,7 +159,7 @@ export default props => {
       ) 
     }
   }  
-  
+
   const renderRow = ({item, index}) => {  
     if (image && image.cover) {
       return (
@@ -277,7 +277,6 @@ const getWidth = p => {
 }
 
 const ContainerHeader = Styled.View`
-  padding-top: 10px;
   flex-grow: 1;
 `;
 const ContainerBody = Styled.View`
@@ -318,6 +317,7 @@ const PriceText = Styled.Text`
   font-size: 22px;
   color: green;
   align-self: flex-end;
+  margin-bottom: 5px;
 `;
 
 const DescriptionContainer = Styled.View`
@@ -333,7 +333,6 @@ const QuantityContainer = Styled.View`
   flex-direction: row;
   align-items: center;
   align-self: flex-end;
-  background: red;
 `;
 
 const QuantityText = Styled.Text`
