@@ -15,7 +15,7 @@ export default function OSImage(props){
   }
   
   return (
-    <Container {...props} background={loaded ? '#FFF' : '#DDD'}>
+    <Container {...props}>
         <Image {...props}           
           source={source ? img : null}
           defaultSource={defaultSource} 
@@ -28,7 +28,7 @@ export default function OSImage(props){
 }
 
 const Container = Styled.View`
-  background: ${p => p.background};
+  background: #FFF;
   border-radius: 1px;
 `;
 
