@@ -1,19 +1,12 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-import {
-  Grid,
-  Cell,
-  Details,
-  Caption,
-  Value,
-  IconView,
-} from '../config/styles';
+import {Grid, Cell, Details, Caption, Value, IconView} from '../config/styles';
 
 import Icon from './icon';
 import Image from './image';
 
-import {windowWidth ,ratio} from '../config/styles';
+import {windowWidth, ratio} from '../config/styles';
 
 import {formatCurrency, formatDate} from '../commons/functions';
 
@@ -34,7 +27,7 @@ export default props => {
     description,
     price,
     quantity,
-    headerComponent
+    headerComponent,
   } = props;
 
   const getColor = (cor, obj) => {
@@ -64,9 +57,9 @@ export default props => {
   function getValue(field, type, item) {
     if (item[field]) {
       if (type === 'date') {
-        return formatDate(new Date(item[field]))      
+        return formatDate(new Date(item[field]));
       } else if (type === 'currency') {
-        return formatCurrency(item[field])
+        return formatCurrency(item[field]);
       } else if (typeof type === 'function') {
         return type(item);
       } else {
@@ -95,17 +88,15 @@ export default props => {
     } else {
       return {title: '', value: ''};
     }
-  }  
-
-
+  }
 
   const renderImage = item => {
     if (image && image.field) {
-      const img = item[image.field] !== '' ? item[image.field]: '';
+      const img = item[image.field] !== '' ? item[image.field] : '';
 
       return (
         <ImageContainer {...props}>
-          <Image {...props} source={img}/>
+          <Image {...props} source={img} />
         </ImageContainer>
       );
     }
@@ -128,7 +119,7 @@ export default props => {
     }
   };
 
-  const renderDescription = (item)  => {
+  const renderDescription = item => {
     if (description) {
       return (
         <DescriptionContainer>
@@ -136,68 +127,74 @@ export default props => {
         </DescriptionContainer>
       );
     }
-  }
+  };
 
-  const renderQuantity = (item) => {
-    if(quantity){
+  const renderQuantity = item => {
+    if (quantity) {
       return (
         <QuantityContainer>
-          <Icon name={item.quantidade == 1 ? 'trash-alt' : 'minus'} size={15} onPress={quantity.actionRem ? () => quantity.actionRem(item) : null}/>
+          <Icon
+            name={item.quantidade == 1 ? 'trash-alt' : 'minus'}
+            size={15}
+            onPress={quantity.actionRem ? () => quantity.actionRem(item) : null}
+          />
           <QuantityText>{item[quantity.field]}</QuantityText>
-          <Icon name={'plus'} size={15} onPress={quantity.actionAdd ? () => quantity.actionAdd(item) : null}/>
+          <Icon
+            name={'plus'}
+            size={15}
+            onPress={quantity.actionAdd ? () => quantity.actionAdd(item) : null}
+          />
         </QuantityContainer>
-      )
+      );
     }
-  }
-  
-  const renderPrice = (item) => {
+  };
+
+  const renderPrice = item => {
     if (price) {
       return (
         <PriceContainer>
-           <PriceText>{formatCurrency(item[price.field])}</PriceText>
+          <PriceText>{formatCurrency(item[price.field])}</PriceText>
         </PriceContainer>
-      ) 
+      );
     }
-  }  
+  };
 
-  const renderRow = ({item, index}) => {  
+  const renderRow = ({item, index}) => {
     if (image && image.cover) {
       return (
         <Row
           {...props}
-          index={index}          
+          index={index}
           onPress={onPress ? () => onPress(item) : null}
           background={getColor(backgroundRow, item)}>
           {renderQuantity(item)}
           {renderPrice(item)}
           {renderImage(item)}
         </Row>
-      )
+      );
     }
 
-    return (        
-      <Row 
+    return (
+      <Row
         {...props}
         index={index}
         onPress={onPress ? () => onPress(item) : null}
         background={getColor(backgroundRow, item)}>
-
         {iconLeft ? renderIcon(iconLeft, item) : renderImage(item)}
 
         <Details>
           {renderCells(item, index)}
           {renderDescription(item)}
           <Line>
-          {renderQuantity(item)}
-          {renderPrice(item)}
+            {renderQuantity(item)}
+            {renderPrice(item)}
           </Line>
         </Details>
-       
+
         {renderIcon(iconRight, item)}
       </Row>
     );
   };
-
 
   const renderLine = (col, item) => {
     if (col.value) {
@@ -224,7 +221,7 @@ export default props => {
       }
     }
   };
-  
+
   const renderCells = (item, index) => {
     if (item && cols) {
       return cols.map((col, i) => {
@@ -235,30 +232,26 @@ export default props => {
 
   const renderHeader = () => {
     if (headerComponent) {
-      return (
-        <ContainerHeader>
-        {headerComponent()}
-        </ContainerHeader>
-      )
+      return <ContainerHeader>{headerComponent()}</ContainerHeader>;
     }
 
-    return <></>
-  }
+    return <></>;
+  };
 
   function Extractor(item, index) {
     return index.toString();
   }
 
-  if (data && data.length>0) {
+  if (data && data.length > 0) {
     return (
       <ContainerBody>
-      <Grid
-        height={height}
-        data={data}
-        renderItem={renderRow}
-        ListHeaderComponent={renderHeader}
-        keyExtractor={(item, index) => Extractor(item, index)}
-      />
+        <Grid
+          height={height}
+          data={data}
+          renderItem={renderRow}
+          ListHeaderComponent={renderHeader}
+          keyExtractor={(item, index) => Extractor(item, index)}
+        />
       </ContainerBody>
     );
   } else {
@@ -268,13 +261,13 @@ export default props => {
 
 const getMarginH = p => (p.margins && p.margins.h ? p.margins.h : 10);
 const getMarginV = p => (p.margins && p.margins.v ? p.margins.v : 10);
-const getHeight = p => p.flexRows ? (ratio / p.flexRows) : (ratio / 5);
+const getHeight = p => (p.flexRows ? ratio / p.flexRows : ratio / 5);
 const getWidth = p => {
-  let width = p.image && p.image.cover ? windowWidth : windowWidth * 0.30;
-  width = width - getMarginH(p)*2;
+  let width = p.image && p.image.cover ? windowWidth - (getMarginH(p)*2) : windowWidth * 0.3;
+  width = width - getMarginH(p) * 2;
 
   return width;
-}
+};
 
 const ContainerHeader = Styled.View`
   flex-grow: 1;
@@ -286,15 +279,15 @@ const ContainerBody = Styled.View`
 const Row = Styled.TouchableOpacity`
   background: #FFF;
   flex-direction: row; 
-  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.1);  
-  elevation: 1;
+  elevation: 2;
   border-radius: 0px; 
   overflow: hidden;
 
   width: ${p => getWidth({...p, image: {cover: true}})};
   height: ${p => getHeight(p)}; 
   margin-top: ${p => getMarginV(p)};
-  margin-left: ${p =>getMarginH(p)};
+  margin-left: ${p => getMarginH(p)} ;
+  border: ${p => p.border ? p.border: 'none'};
 `;
 
 const Line = Styled.View`
@@ -304,7 +297,7 @@ const Line = Styled.View`
 const ImageContainer = Styled.View`
   width:  ${p => getWidth(p)};
   height: ${p => getHeight(p)};
-  padding: ${p => p.image && p.image.cover ? 0 : '5px 5px 8px 5px'};
+  padding: ${p => (p.image && p.image.cover ? 0 : '5px 5px 8px 5px')};
 `;
 
 const PriceContainer = Styled.View`
