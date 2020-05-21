@@ -14,6 +14,7 @@ export default ({
   Min,
   ParamsGetFixo,
   api,
+  source
 }) => {
   const [tipo, setTipo] = useState(eNum[0]);
   const [value, setValue] = useState('');
@@ -77,7 +78,7 @@ export default ({
         autoFocus={true}
         keyboard={tipo.keyboard ? tipo.keyboard : 'default'}
       />
-      <OSLoader visible={loading} />
+      <OSLoader visible={loading} source={source} />
     </View>
   );
 };
