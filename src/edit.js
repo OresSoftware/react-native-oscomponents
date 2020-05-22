@@ -22,6 +22,7 @@ export default ({
   disabled,
   mask,
   maskoptions,
+  themeColor,
 }) => {
 
   const renderIcon = icon => {
@@ -67,7 +68,7 @@ export default ({
           disabled={disabled}
           theme={{
             colors: {
-              primary: 'blue',
+              primary: themeColor ? themeColor : 'blue',
             },
           }}
           render={

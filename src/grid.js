@@ -21,13 +21,13 @@ export default props => {
     colorCaption,
     colorValue,
     onPress,
-    height,
+    height,    
     backgroundRow,
-
     description,
     price,
     quantity,
     headerComponent,
+    maxheightRow,
   } = props;
 
   const getColor = (cor, obj) => {
@@ -261,7 +261,15 @@ export default props => {
 
 const getMarginH = p => (p.margins && p.margins.h ? p.margins.h : 10);
 const getMarginV = p => (p.margins && p.margins.v ? p.margins.v : 10);
-const getHeight = p => (p.flexRows ? ratio / p.flexRows : ratio / 5);
+const getHeight = p => { 
+                        const result = (p.flexRows ? ratio / p.flexRows : ratio / 5);
+                        if (p.maxheightRow){
+                           if (result>p.maxheightRow) {
+                            return p.maxheightRow
+                           }  
+                         }  
+                         return result; 
+                        };
 const getWidth = p => {
   let width = p.image && p.image.cover ? windowWidth - (getMarginH(p)*2) : windowWidth * 0.3;
   width = width - getMarginH(p) * 2;

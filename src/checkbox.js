@@ -6,6 +6,7 @@ import {Label, ContainerFlexRow} from '../config/styles';
 export default class OSCheckbox extends Component {
   state = {
     label: '',
+    color: 'tomato',
   };
 
   render() {
@@ -15,7 +16,7 @@ export default class OSCheckbox extends Component {
         <Checkbox
           status={this.props.checked ? 'checked' : 'unchecked'}
           onPress={() => this.props.onPress(!checked)}
-          color={'tomato'}
+          color={this.props.color ? this.props.color : 'tomato'}
         />
         <Label onPress={() => this.props.onPress(!checked)}>
           {this.props.label}

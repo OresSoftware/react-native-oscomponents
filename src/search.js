@@ -14,7 +14,8 @@ export default ({
   Min,
   ParamsGetFixo,
   api,
-  source
+  source,
+  themeColor
 }) => {
   const [tipo, setTipo] = useState(eNum[0]);
   const [value, setValue] = useState('');
@@ -77,6 +78,7 @@ export default ({
         onPress={Pesquisa}
         autoFocus={true}
         keyboard={tipo.keyboard ? tipo.keyboard : 'default'}
+        themeColor={themeColor}
       />
       <OSLoader visible={loading} source={source} />
     </View>
