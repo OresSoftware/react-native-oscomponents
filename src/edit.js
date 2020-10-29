@@ -69,6 +69,7 @@ export default ({
           theme={{
             colors: {
               primary: themeColor ? themeColor : 'blue',
+              background: '#FFF'
             },
           }}
           render={

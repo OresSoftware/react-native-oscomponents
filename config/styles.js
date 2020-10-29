@@ -89,6 +89,7 @@ export const IconContainer = Styled.View`
   border-width: 1px;
   height: 57px;
   justify-content: center;
+  background: #FFF;
 `;
 
 export const Grid = Styled.FlatList`
